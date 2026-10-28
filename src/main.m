@@ -15,7 +15,7 @@ attitude = [-0.062 0.925 -0.007 0.375];
 sat = Satellite(semi_major, inclination, attitude, ...
                 angular_velocity, inertia_tensor);
 
-n_orbits = 3;
+n_orbits = 2;
 time_step = 1; % Seconds
 integrate_between = true;
 apply_noise = false;
