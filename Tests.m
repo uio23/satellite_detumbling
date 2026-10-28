@@ -1,6 +1,6 @@
 classdef Tests < matlab.unittest.TestCase
     properties
-        Tolerance = 10^-6;
+        Tolerance = 10^-8;
         Sat
         Positions
         Magnetic_sense
@@ -9,11 +9,20 @@ classdef Tests < matlab.unittest.TestCase
 
     methods (TestClassSetup)
         function createSatellite(testCase)
-            simulation = evalin('base', 'simulation');
-            testCase.Positions = [simulation.X simulation.Y simulation.Z];
-            testCase.Magnetic_sense = [simulation.BX simulation.BY simulation.BZ];
-            testCase.Simulation = simulation;
-            testCase.Sat = evalin('base', 'sat');
+            % Setup simple satellite that performs 1 orbit for tests
+            semi_major = 7021e3;
+            inclination = deg2rad(45);
+            angular_velocity = [0 0 0];
+            inertia_tensor   = diag([0.25 0.25 0.25]);
+            attitude = [1 0 0 0];
+            testCase.Sat = Satellite( ...
+                semi_major, inclination, attitude, ...
+                angular_velocity, inertia_tensor ...
+            );
+
+            simulation = testCase.Sat.performObserverOrbit(1, true);
+            testCase.Positions = simulation {:, ["X" "Y" "Z"]};
+            testCase.Magnetic_sense = simulation{:, ["BX" "BY" "BZ"]};
         end
     end
 
@@ -41,7 +50,9 @@ classdef Tests < matlab.unittest.TestCase
             t_0 = testCase.Positions(1,:);
             t_T = testCase.Positions(end,:);
 
-            testCase.verifyEqual(t_T, t_0, "Orbit not closed. Position at t=0 is not equal to position at t=T", AbsTol=testCase.Tolerance);
+            % Slightly higher tolerance of 10^-6 because position drifts by
+            % ~10^-5 on each axis, per orbit
+            testCase.verifyEqual(t_T, t_0, "Orbit not closed. Position at t=0 is not equal to position at t=T", AbsTol=10^-6);
         end
         function magnetic_periodicity(testCase)
             t_0 = testCase.Magnetic_sense(1,:);
@@ -51,9 +62,9 @@ classdef Tests < matlab.unittest.TestCase
         end
         function B_mag_stays_in_bounds(testCase)
             % B field weakest at equator
-            predicted_min = closedForm(vecnorm(testCase.Sat.R0), pi/2);
-            % Offset from equator by orbital inclination, downwards
-            predicted_max = closedForm(vecnorm(testCase.Sat.R0), pi/2 - testCase.Sat.Inclination);
+            predicted_min = closedForm(vecnorm(testCase.Sat.Position), pi/2);
+            % Offset from equator by orbital inclination, upwards
+            predicted_max = closedForm(vecnorm(testCase.Sat.Position), pi/2 - testCase.Sat.Inclination);
 
             b_magnitudes = vecnorm(testCase.Magnetic_sense, 2, 2);
             recorded_min = min(b_magnitudes);

@@ -1,23 +1,20 @@
 % Calculate the position and magnetic field vectors around the planet
-% at specified polar and azimuth intervals
+% at specified polar and azimuth intervals. This is only used for
+% visualisation
 
 
+clc
 clearvars bfield_data
 
-
-% polar_step = deg2rad(input("What polar step angle do you want (in deg)? "));
-% azimuth_step = deg2rad(input("What azimuth step angle do you want (in deg)? "));
-
+% In radians
 polar_step = deg2rad(15);
-azimuth_step = deg2rad(30);
+azimuth_step = deg2rad(15);
 
 polar_angles = 0:polar_step:2*pi;
 azimuthal_angles = 0:azimuth_step:2*pi;
 
 points = combinations(polar_angles, azimuthal_angles);
-
 bfield_data = zeros(height(points), 6);
-
 
 % For every combination of polar and azimuth angle, calculate the position
 % vector and the magnetic field at that point

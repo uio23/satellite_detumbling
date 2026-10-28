@@ -1,4 +1,4 @@
-% Create 3D planet figure and display it
+% Create 3D planet and display it
 
 
 figure(Name=Constants.planet_name + " 3D", NumberTitle="off", WindowStyle="docked")

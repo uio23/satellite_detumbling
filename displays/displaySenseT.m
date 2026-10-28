@@ -1,8 +1,5 @@
-%% 
-% Display the magnetic field measured by satellite during one full orbit,
-% alongside the actual magnetic field at every timestamp
-
-
+% Display the magnetic field measured by satellite vs actual magnetic field
+% along the orbit
 figure(Name="Magnetic Field TS", NumberTitle="off", WindowStyle="docked")
 
 magnetic_magnitude = vecnorm(simulation{:, ["BX", "BY", "BZ"]}, 2, 2);
@@ -15,6 +12,6 @@ hold on
 plot(magnetic_magnitude_ts, 'LineWidth', 2)
 
 title('Measured vs Theoretical magnetic field over time')
-xlabel('Time (s)')
-ylabel('Magnetic Field (T)')
+xlabel('Time [s]')
+ylabel('Magnetic Field [T]')
 legend('Measured','Theoretical')

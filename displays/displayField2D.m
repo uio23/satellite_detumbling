@@ -1,6 +1,5 @@
-% Create 2D planet figure and on it
-% Display quiver plot of magnetic field 
-% along the y axis with a step of pi/18 (so in x-z axis)
+% Create 2D planet figure and 
+% display quiver plot of its magnetic field in x-z axis
 
 
 figure(Name=Constants.planet_name + " 2D", NumberTitle="off", WindowStyle="docked")
@@ -12,11 +11,11 @@ y_bfield = bfield_data(bfield_data(:, 2) == 0, :);
 
 
 q = quiver(y_bfield(:,1), y_bfield(:,3), y_bfield(:,4), y_bfield(:,6));
-q.Color = "#D57E7E";
+q.Color = "#006199";
 
 r = rectangle(Position=[-Constants.planet_rad, -Constants.planet_rad, Constants.planet_rad * 2, Constants.planet_rad * 2], Curvature=[1 1]);
-r.EdgeColor = "#C6D57E";
-r.FaceColor = "#A2CDCD";
+r.EdgeColor = "#A2CDCD";
+r.FaceColor = "#C6D57E";
 r.FaceAlpha = 0.8;
 
 
