@@ -1,6 +1,6 @@
 # Magnetic Satellite Detumbling Simulation
-My Aerospace Simulation Research project
-supervised by Zac Isaac from [@RocketWerkz](https://github.com/RocketWerkz).
+My Aerospace Simulation research project
+supervised by Dr. Zac Isaac, Senior Computational Scientist, [@RocketWerkz](https://github.com/RocketWerkz).
 
 ## Detumble example
 <img src="example_w.png" alt="Timeseries of angular velocities">  
